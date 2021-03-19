@@ -1,4 +1,4 @@
- package edu.iastate.cs311.hw2.grading;
+package edu.iastate.cs311.hw2.grading;
 
 import java.io.FileNotFoundException;
 
@@ -13,7 +13,6 @@ public class AutomatedJUnitRunner {
 				+ "Automated Test Output:");
 		Grader g=new Grader(HeapTest.class, "Heap");
 		g.run();
-	//	new Grader(QuickSorterTest.class, "QuickSorter").run();
 		System.out.println("-----------------------------");
 //2 points for the author tag, 
 //3 points for the .zip file name format,

@@ -18,6 +18,7 @@ import java.util.Random;
 import edu.iastate.cs311.hw2.Heap;
 import edu.iastate.cs311.hw2.solution.HeapSolution;
 
+@Total(value = 100)
 public class HeapTest {
         private Heap<Integer>  one;
         private Heap<Integer>  heap, heaptwo, heapthree;
@@ -30,10 +31,6 @@ public class HeapTest {
 
 	@Before
 	public void setUp() {
-	//	this.singleArr = new int[] { 1 };
-	//	this.smallArr = new int[] { 2, 3, 1 };
-	//	this.mediumArr = fillArr(10000);
-	//	this.largeArr = fillArr(100000);
 
                 one = new Heap<Integer>();
                 one.add(10);

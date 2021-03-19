@@ -3,9 +3,7 @@
  */
 package edu.iastate.cs311.hw2.grading;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
 
 import org.junit.runner.Description;
 import org.junit.runner.JUnitCore;
@@ -13,13 +11,12 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
-// import edu.iastate.cs228.hw2.grading.hw2.InsertionSorter;
-// import edu.iastate.cs228.hw2.InsertionSorter;
 
 /**
  * 
  * 
  * @author Michael Seibert
+ * @author Justin Derby
  */
 public class Grader extends RunListener
 {
@@ -27,8 +24,8 @@ public class Grader extends RunListener
    private int pointsLost = 0;
    private final Class<?> testClass;
    private final String testName;
-   private static PrintStream out;
-   private static double total = -1;
+   private static double setTotal = 0;
+   private static double studentTotal = 0;
 
    /**
  * @throws FileNotFoundException 
@@ -42,6 +39,19 @@ public class Grader extends RunListener
 //      if(out == null)
 //    	  out = new PrintStream(f);
 //      System.setOut(out);
+   }
+   
+   public static double getTotal() {
+	   return setTotal;
+   }
+   
+   public static void resetGrader() {
+	   studentTotal = 0;
+	   setTotal = 0;
+   }
+   
+   public static double getStudentTotal() {
+	   return studentTotal;
    }
    
    public void run()
@@ -73,7 +83,9 @@ public class Grader extends RunListener
          String fullLocation = locThrown.getFileName() + ":" + locThrown.getLineNumber();
          message = "Threw " + name + exceptionMessage + " at (" + fullLocation + ")";
       }
-      System.out.printf("%s (-%d points)%n", message, getPoints(penalty));
+      String name = failure.getTestHeader();
+      name = name.substring(0, name.indexOf('('));
+      System.out.printf("[%s] %s (-%d points)%n", name, message, getPoints(penalty));
    }
    
    /**
@@ -83,24 +95,16 @@ public class Grader extends RunListener
    public void testRunFinished(Result result) throws Exception
    {
       super.testRunFinished(result);
-      System.out.println("*****" + (result.getRunCount()-result.getFailureCount()) +
+      int totalResult = getClassTotal();
+      System.out.println("***** " + (result.getRunCount()-result.getFailureCount()) +
             " tests passed and " + result.getFailureCount() + " failed out of " + result.getRunCount() + " total on " +
             testName );
-      double normalized;
- //     if(this.testClass==HeapTest.class){
-    	  normalized = ((pointsPossible-pointsLost)*1.0/pointsPossible)*70; // TODO
-    	  pointsPossible = 70;  // TODO
- //     }
- //     else{
- //   	  normalized = ((pointsPossible-pointsLost)*1.0/pointsPossible)*30;
-   // 	  pointsPossible = 30;
- //     }
-      boolean firstTest = total <0;
-      total = total<0?normalized:total+normalized;
-      System.out.printf("Score: %.2f/%d\n", normalized, pointsPossible);
-      if(!firstTest){
-    	  System.out.printf("\nAutomated tests: %.2f/40\n", total);
-      }
+      double  normalized = ((pointsPossible-pointsLost)*1.0/pointsPossible)*totalResult;
+      
+      System.out.println(String.format("Raw Score: %d/%d", (pointsPossible-pointsLost), pointsPossible));
+      System.out.println(String.format("Normalized Score: %.2f/%d", normalized, totalResult));
+      studentTotal += normalized;
+      setTotal += totalResult;
    }
    
    /**
@@ -120,10 +124,21 @@ public class Grader extends RunListener
    private static int getPoints(Description description)
    {
       Points annotation = description.getAnnotation(Points.class);
+      if (annotation == null)
+		  System.err.println(description.getMethodName() + " does not have a Points annotation!");
       int value = annotation.value();
       return value;
    }
-   public double getPoints() {
-	   return this.total;
+   
+   /**
+    * @return How many points that whole test class was worth
+    */
+   private int getClassTotal()
+   {
+	  Total annotation = testClass.getAnnotation(Total.class);
+	  if (annotation == null)
+		  System.err.println(testClass.getName() + " does not have a Total annotation!");
+      int value = annotation.value();
+      return value;
    }
 }
