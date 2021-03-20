@@ -98,6 +98,27 @@ public class HeapTest {
 				equalTo(answerheap.getMin() ));
 	}
 
+    @Test(timeout = 100)
+    @Points(value = 15)
+    public void removeMinTest1() {
+	    heap.removeMin();
+	    answerheap.removeMin();
+        assertThat("removeMin() does not correctly update the minimum value", heap.getMin(),
+                equalTo(answerheap.getMin() ));
+    }
+
+    @Test(timeout = 100)
+    @Points(value = 15)
+    public void removeMinTest2() {
+	    int NUMBER_OF_REMOVALS = answerheap.size()/ 20;
+        for (int i = 0; i < NUMBER_OF_REMOVALS; i++) {
+            heap.removeMin();
+            answerheap.removeMin();
+            assertThat("removeMin() does not correctly update the minimum value", heap.getMin(),
+                    equalTo(answerheap.getMin() ));
+        }
+    }
+
 	@Test(timeout = 100)
 	@Points(value = 5)
 	public void getMinTestStr() {
