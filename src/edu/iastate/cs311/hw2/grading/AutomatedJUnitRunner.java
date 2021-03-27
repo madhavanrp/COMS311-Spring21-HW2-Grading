@@ -30,6 +30,6 @@ public class AutomatedJUnitRunner {
 		System.out.println("-----------------------------");
 
 		studentTotal+=zipFileFormatPoints + filePathPoints;
-		System.out.println(String.format("total grade: %.2f/%.2f", studentTotal, total));
+		System.out.println(String.format("total grade: %.2f/%.2f", studentTotal, 100.0));
 	}
 }
