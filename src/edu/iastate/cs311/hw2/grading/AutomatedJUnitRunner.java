@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 public class AutomatedJUnitRunner {
 	public static void main(String[] args) throws FileNotFoundException {
 		System.out.println("-----------------------------\r\n"
-				+ "HW 1 Grade\r\n"
+				+ "HW 2 Grade\r\n"
 				+ "Graded by: []\r\n"
 				+ "Email: []\r\n"
 				+ "Office Hours: \r\n"
