@@ -21,13 +21,15 @@ public class AutomatedJUnitRunner {
 
 		double total = Grader.getTotal(); // 100 for this project. This value might be changed if the file paths are allocated points. (eg. changed to 95 if file paths is worth 5 points)
 		double studentTotal = Grader.getStudentTotal();
-
-		System.out.println("(  / 2)@author tags \r\n"
-				+ "(  / 3).zip file name format  \r\n"
-				+ "(  / 5)file path \r\n"
-				+ "(20/20)code execution  \r\n"
-				);
+		int zipFileFormatPoints = 5;
+		int filePathPoints = 5;
+		System.out.println(String.format( "(  %d/ 5).zip file name format  \r\n"
+				+ "(  %d/ 5)file path \r\n"
+				+ "(%d/90)code execution  \r\n"
+				, zipFileFormatPoints, filePathPoints, (int)studentTotal));
 		System.out.println("-----------------------------");
+
+		studentTotal+=zipFileFormatPoints + filePathPoints;
 		System.out.println(String.format("total grade: %.2f/%.2f", studentTotal, total));
 	}
 }

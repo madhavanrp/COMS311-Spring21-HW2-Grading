@@ -18,7 +18,7 @@ import java.util.Random;
 import edu.iastate.cs311.hw2.Heap;
 import edu.iastate.cs311.hw2.solution.HeapSolution;
 
-@Total(value = 100)
+@Total(value = 90)
 public class HeapTest {
         private Heap<Integer>  one;
         private Heap<Integer>  heap, heaptwo, heapthree;
